@@ -1,0 +1,3 @@
+0 Has Glass
+1 No Glass
+2 Nobody
