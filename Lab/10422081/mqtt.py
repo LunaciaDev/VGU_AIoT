@@ -4,9 +4,8 @@ import random as r
 import time
 import aitest
 
-AIO_FEED_ID = ""
 AIO_USERNAME = "student_104"
-temp = open("./Week2/key")
+temp = open("key")
 AIO_KEY = temp.read()
 temp.close()
 
