@@ -64,8 +64,8 @@ while True:
     client.publish("sensor2", sensorTwoValue)
     time.sleep(4)
     client.publish("sensor3", sensorThreeValue)
-    #time.sleep(4)
-    #client.publish("ai", aitest.imageDetector()) #Homework: Output AI data to Adafruit
+    time.sleep(4)
+    client.publish("ai", aitest.imageDetector()) #Homework: Output AI data to Adafruit
     time.sleep(4)
     client.publish("testfeed", evaluate(sensorOneValue, sensorTwoValue, sensorThreeValue))
     time.sleep(10)
