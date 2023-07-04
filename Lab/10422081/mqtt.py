@@ -62,7 +62,7 @@ def requestData(command):
     sensor.sendCommand(command)
     time.sleep(3)
     returnData = sensor.readSerial()
-    if returnData == []: return 0
+    if returnData == []: return "0"
     return returnData[2]
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
