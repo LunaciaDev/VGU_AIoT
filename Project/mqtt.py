@@ -9,22 +9,6 @@ temp = open("key")
 AIO_KEY = temp.read()
 temp.close()
 
-
-# def init_global_equation():
-#     global global_equation
-#     headers = {}
-#     aio_url = ""
-#     x = requests.get(url=aio_url, headers=headers, verify=False)
-#     data = x.json()
-#     global_equation = data["last_value"]
-#     print("Get lastest value:", global_equation)
-
-# def modify_value(x1, x2, x3):
-#     global  global_equation
-#     print("Equation: ", global_equation)
-#     result = eval(global_equation)
-#     return result
-
 def connected(client):
     client.subscribe("lightsensor")
     client.subscribe("moistsensor")
