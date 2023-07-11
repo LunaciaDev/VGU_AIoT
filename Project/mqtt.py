@@ -1,12 +1,13 @@
-print("MQTT with Adafruit IO")
 import time
 import random
 import sys
 from Adafruit_IO import MQTTClient
 import requests
 
-AIO_USERNAME = ""
-AIO_KEY = ""
+AIO_USERNAME = "Afihu"
+temp = open("key")
+AIO_KEY = temp.read()
+temp.close()
 
 
 # def init_global_equation():
