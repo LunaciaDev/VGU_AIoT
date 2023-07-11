@@ -51,7 +51,7 @@ while True:
     rain = random.randint(0,1) # Rain
     client.publish("lightsensor", sun)
     client.publish("rainsensor", rain)
-    time.sleep(2)
+    time.sleep(3)
     
     # Daytime  
     if sun == 1:  
@@ -70,17 +70,24 @@ while True:
         client.publish("tempsensor", temp)   
         moisture = random.randint(50,99)
         client.publish("on-slash-off", 1)
+        time.sleep(1)
         client.publish("moistsensor", moisture)
-        time.sleep(2)
+        time.sleep(3)
+        
         if moisture >= 85: 
             reservoir -= 5
             client.publish("wateramount",5)           
+        
         elif moisture <= 60: 
             reservoir -= 15
             client.publish("wateramount",15)
+        
         else: 
             reservoir -= 10
             client.publish("wateramount",5)
         client.publish("reservoir", reservoir)
+    
+    if reservoir == 0: reservoir = 100
     time.sleep(10)
+    
     pass
