@@ -5,11 +5,9 @@ import sys
 from Adafruit_IO import MQTTClient
 import requests
 
-AIO_USERNAME = "Afihu"
-AIO_KEY = "aio_EjVE01J7cxXa2wTtucyojbKuAqKb"
+AIO_USERNAME = ""
+AIO_KEY = ""
 
-##Dummy equation
-global_equation = "    "
 
 # def init_global_equation():
 #     global global_equation
@@ -68,14 +66,15 @@ while True:
     rain = random.randint(0,1) # Rain
     client.publish("lightsensor", sun)
     client.publish("rainsensor", rain)
-
+    time.sleep(2)
+    
     # Daytime  
     if sun == 1:  
         temp = random.randint(30, 35)
     # Nighttime
     else:
         temp = random.randint(25,29)
-    
+
     # Rain
     if rain == 1:
         client.publish("tempsensor", temp-2)
@@ -85,7 +84,9 @@ while True:
     else:
         client.publish("tempsensor", temp)   
         moisture = random.randint(50,99)
-        client.publish("on/off", 1)
+        client.publish("on-slash-off", 1)
+        client.publish("moistsensor", moisture)
+        time.sleep(2)
         if moisture >= 85: 
             reservoir -= 5
             client.publish("wateramount",5)           
