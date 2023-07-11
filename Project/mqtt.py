@@ -2,7 +2,6 @@ import time
 import random
 import sys
 from Adafruit_IO import MQTTClient
-import requests
 
 AIO_USERNAME = "Afihu"
 temp = open("key")
@@ -27,12 +26,8 @@ def disconnected(client):
     sys.exit (1)
 
 def message(client , feed_id , payload):
-    print("Received: " + payload)
-    if(feed_id == "equation"):
-        global  global_equation
-        global_equation = payload
-        print(global_equation)
-
+    print(f"Received payload from \"{feed_id}\": {payload}")
+    
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 
 client.on_connect = connected  #callback
@@ -46,9 +41,12 @@ client.loop_background()
 reservoir = 100
 
 while True:  
+    # Reservoir amount
+    client.publish("reservoir", reservoir)
+    time.sleep(2)
     # Whether it's day or night/ raining or not.
     sun = random.randint(0,1) # Day (5am - 7pm)/Night (7pm - 5am).
-    rain = random.randint(0,1) # Rain
+    rain =random.randint(0,1)# Rain
     client.publish("lightsensor", sun)
     client.publish("rainsensor", rain)
     time.sleep(3)
@@ -63,16 +61,22 @@ while True:
     # Rain
     if rain == 1:
         client.publish("tempsensor", temp-2)
+        time.sleep(1)
         client.publish("moistsensor", 100)
+        time.sleep(1)
         client.publish("on-slash-off", 0)
+        time.sleep(1)
+        client.publish("wateramount",0)
+        time.sleep(1)
     # No rain
     else:
-        client.publish("tempsensor", temp)   
+        client.publish("tempsensor", temp)
+        time.sleep(1)   
         moisture = random.randint(50,99)
         client.publish("on-slash-off", 1)
         time.sleep(1)
         client.publish("moistsensor", moisture)
-        time.sleep(3)
+        time.sleep(1)
         
         if moisture >= 85: 
             reservoir -= 5
@@ -84,10 +88,8 @@ while True:
         
         else: 
             reservoir -= 10
-            client.publish("wateramount",5)
+            client.publish("wateramount",10)
         client.publish("reservoir", reservoir)
     
-    if reservoir == 0: reservoir = 100
-    time.sleep(10)
-    
-    pass
+    if reservoir <= 0: reservoir = 100
+    time.sleep(12)
