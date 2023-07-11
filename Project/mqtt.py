@@ -46,7 +46,7 @@ while True:
     time.sleep(2)
     # Whether it's day or night/ raining or not.
     sun = random.randint(0,1) # Day (5am - 7pm)/Night (7pm - 5am).
-    rain =random.randint(0,1)# Rain
+    rain =random.randint(0,1) # Rain
     client.publish("lightsensor", sun)
     client.publish("rainsensor", rain)
     time.sleep(3)
