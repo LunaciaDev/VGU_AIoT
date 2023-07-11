@@ -5,11 +5,11 @@ import sys
 from Adafruit_IO import MQTTClient
 import requests
 
-AIO_USERNAME = ""
-AIO_KEY = ""
+AIO_USERNAME = "Afihu"
+AIO_KEY = "aio_EjVE01J7cxXa2wTtucyojbKuAqKb"
 
 ##Dummy equation
-##global_equation = "    "
+global_equation = "    "
 
 # def init_global_equation():
 #     global global_equation
@@ -26,17 +26,10 @@ AIO_KEY = ""
 #     result = eval(global_equation)
 #     return result
 
-# def message(client , feed_id , payload):
-#     print("Received: " + payload)
-#     if(feed_id == "equation"):
-#         global  global_equation
-#         global_equation = payload
-#         print(global_equation)
-      
 def connected(client):
     client.subscribe("lightsensor")
     client.subscribe("moistsensor")
-    client.subscribe("on/off")
+    client.subscribe("on-slash-off")
     client.subscribe("rainsensor")
     client.subscribe("reservoir")
     client.subscribe("tempsensor")
@@ -50,6 +43,13 @@ def disconnected(client):
     print("Disconnected from the server!")
     sys.exit (1)
 
+def message(client , feed_id , payload):
+    print("Received: " + payload)
+    if(feed_id == "equation"):
+        global  global_equation
+        global_equation = payload
+        print(global_equation)
+
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 
 client.on_connect = connected  #callback
@@ -60,8 +60,9 @@ client.on_subscribe = subscribe
 client.connect()
 client.loop_background()
 
-while True:
-    reservoir = 100
+reservoir = 100
+
+while True:  
     # Whether it's day or night/ raining or not.
     sun = random.randint(0,1) # Day (5am - 7pm)/Night (7pm - 5am).
     rain = random.randint(0,1) # Rain
@@ -79,7 +80,7 @@ while True:
     if rain == 1:
         client.publish("tempsensor", temp-2)
         client.publish("moistsensor", 100)
-        client.publish("on/off", 0)
+        client.publish("on-slash-off", 0)
     # No rain
     else:
         client.publish("tempsensor", temp)   
@@ -95,5 +96,5 @@ while True:
             reservoir -= 10
             client.publish("wateramount",5)
         client.publish("reservoir", reservoir)
-        time.sleep(10)
+    time.sleep(10)
     pass
